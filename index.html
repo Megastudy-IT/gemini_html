@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ABC마트 - 1+1 사은품 대축제</title>
+    <style>
+        /* CSS Reset and Base Styles */
+        :root {
+            /* Pastel Colors */
+            --color-primary: #7ed6df; /* Soft Teal/Mint */
+            --color-secondary: #c7a7ed; /* Light Lavender */
+            --color-accent: #f9d8a3; /* Pastel Yellow */
+            --color-text-dark: #333333;
+            --color-background-light: #f4f4f9;
+            --color-white: #ffffff;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', 'Noto Sans KR', sans-serif;
+            line-height: 1.6;
+            color: var(--color-text-dark);
+            background-color: var(--color-background-light);
+            scroll-behavior: smooth;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        /* Header & Navigation */
+        header {
+            background-color: var(--color-white);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--color-primary);
+            text-decoration: none;
+        }
+
+        nav a {
+            color: var(--color-text-dark);
+            text-decoration: none;
+            margin-left: 1.5rem;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--color-primary);
+        }
+
+        /* Hero Section */
+        #intro {
+            background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+            padding: 4rem 0 6rem;
+            text-align: center;
+            color: var(--color-white);
+        }
+
+        .hero-content h1 {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+            font-weight: 900;
+        }
+
+        .hero-content p {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+        
+        /* .product-image-placeholder CSS 제거 (대신 .product-main-image 사용) 
+        */
+
+        /* 메인 제품 이미지 스타일 */
+        .product-main-image {
+            width: 80%;
+            max-width: 600px; /* 이미지 최대 너비 설정 */
+            height: auto;
+            margin: 2rem auto;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); /* 그림자 효과 추가 */
+            display: block; /* 블록 요소로 중앙 정렬 및 너비 조정 용이 */
+            object-fit: cover;
+        }
+
+        /* Features Section */
+        #features {
+            padding: 4rem 0;
+            text-align: center;
+        }
+
+        h2 {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            color: var(--color-primary);
+        }
+
+        .feature-list {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            margin-bottom: 3rem;
+        }
+
+        .feature-item {
+            flex: 1;
+            max-width: 300px;
+            background-color: var(--color-white);
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+            text-align: left;
+        }
+
+        .feature-item h3 {
+            color: var(--color-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        /* Dynamic Toggle Area */
+        .toggle-button {
+            background-color: var(--color-accent);
+            color: var(--color-text-dark);
+            border: none;
+            padding: 0.75rem 2rem;
+            margin-top: 1rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.1s;
+        }
+
+        .toggle-button:hover {
+            background-color: #f7c978;
+        }
+
+        .toggle-button:active {
+            transform: scale(0.98);
+        }
+
+        #feature-details-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-in-out, padding 0.5s ease-in-out;
+            background-color: #ffffff;
+            border-radius: 12px;
+            margin-top: 2rem;
+            text-align: left;
+            padding: 0 2rem; /* Initial padding is 0 */
+        }
+
+        #feature-details-content.expanded {
+            max-height: 500px; /* Adjust based on content size */
+            padding: 2rem;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+        }
+
+        .detail-item {
+            margin-bottom: 1rem;
+            padding: 0.5rem 0;
+            border-bottom: 1px dashed #eee;
+        }
+        .detail-item:last-child {
+            border-bottom: none;
+        }
+        .detail-item strong {
+            color: var(--color-primary);
+        }
+
+        /* Reviews Section */
+        #reviews {
+            background-color: var(--color-white);
+            padding: 4rem 0;
+            text-align: center;
+        }
+
+        .review-cards {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            justify-content: center;
+        }
+
+        .review-card {
+            background-color: var(--color-background-light);
+            padding: 1.5rem;
+            border-radius: 12px;
+            max-width: 350px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            text-align: left;
+            flex: 1 1 300px; /* Flexible basis for wrapping */
+        }
+
+        .review-card blockquote {
+            font-style: italic;
+            margin-bottom: 1rem;
+            color: var(--color-text-dark);
+        }
+
+        .review-card cite {
+            display: block;
+            text-align: right;
+            font-weight: bold;
+            color: var(--color-secondary);
+        }
+
+        /* CTA Section */
+        #cta-final {
+            padding: 4rem 0;
+            text-align: center;
+            background-color: var(--color-secondary);
+            color: var(--color-white);
+        }
+
+        #cta-final h2 {
+            color: var(--color-white);
+            margin-bottom: 1rem;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background-color: var(--color-accent);
+            color: var(--color-text-dark);
+            text-decoration: none;
+            font-size: 1.25rem;
+            font-weight: bold;
+            padding: 1rem 3rem;
+            border-radius: 50px;
+            transition: background-color 0.3s, transform 0.1s;
+        }
+
+        .cta-button:hover {
+            background-color: #f7c978;
+            transform: translateY(-2px);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--color-text-dark);
+            color: var(--color-background-light);
+            padding: 2rem 0;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .company-info, .contact-info {
+            padding: 0.5rem 0;
+            min-width: 200px;
+        }
+
+        /* Mobile Responsiveness (Max 768px) */
+        @media screen and (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+            }
+
+            nav {
+                margin-top: 1rem;
+                display: flex;
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            nav a {
+                margin-left: 0;
+                padding: 0.5rem 0;
+                border-bottom: 1px solid #eee;
+            }
+            
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero-content p {
+                font-size: 1rem;
+            }
+
+            .feature-list, .review-cards {
+                flex-direction: column;
+            }
+
+            .review-card, .feature-item {
+                max-width: 100%;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. 헤더 (Header) -->
+    <header>
+        <div class="container header-content">
+            <a href="#intro" class="logo">ABC마트</a>
+            <nav>
+                <a href="#intro">제품 소개</a>
+                <a href="#features">기능 보기</a>
+                <a href="#reviews">후기</a>
+                <a href="https://example.com/qna" target="_blank">문의하기</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <!-- 2. 제품 이미지 및 주요 특징 소개 (Hero Section) -->
+        <section id="intro">
+            <div class="container hero-content">
+                <h1>ABC마트 사은품 대축제!</h1>
+                <h2>지금 구매하시면 <span style="color: var(--color-accent);">1 + 1</span> 혜택이 따라옵니다!</h2>
+                <p>놓치기 아까운 파격적인 행사. 한정 수량 재고 소진 시 마감됩니다.</p>
+                
+                <!-- 메인 제품 이미지를 main.png로 수정하고 스타일 적용 -->
+                <img src="main.png" alt="ABC마트 1+1 이벤트 메인 제품 이미지" class="product-main-image" onerror="this.onerror=null; this.src='https://placehold.co/600x400/7ed6df/ffffff?text=Main+Image+Placeholder'">
+
+                <a href="https://example.com/qna" target="_blank" class="cta-button">
+                    지금 바로 문의하기
+                </a>
+            </div>
+        </section>
+
+        <!-- 3. 기능 및 동적 영역 (Features Section) -->
+        <section id="features">
+            <div class="container">
+                <h2>제품의 주요 기능</h2>
+
+                <div class="feature-list">
+                    <article class="feature-item">
+                        <h3>빠른 배송</h3>
+                        <p>주문 후 24시간 내 발송을 원칙으로 하여, 가장 신속하게 제품을 받아보실 수 있습니다.</p>
+                    </article>
+                    <article class="feature-item">
+                        <h3>최대 만족도</h3>
+                        <p>고객 후기 평점 4.8점! 압도적인 만족도로 검증된 품질을 자랑합니다.</p>
+                    </article>
+                    <article class="feature-item">
+                        <h3>쉬운 교환/환불</h3>
+                        <p>구매 후 7일 이내라면 복잡한 절차 없이 간편하게 교환 및 환불이 가능합니다.</p>
+                    </article>
+                </div>
+                
+                <!-- 동적 기능 상세 영역 토글 -->
+                <button id="toggleDetails" class="toggle-button" aria-expanded="false" aria-controls="feature-details-content">
+                    기능 상세 내용 더보기 (클릭)
+                </button>
+
+                <div id="feature-details-content">
+                    <div class="detail-item">
+                        <strong>세부 기능 1:</strong> 1+1 이벤트 상품 교차 선택 가능
+                    </div>
+                    <div class="detail-item">
+                        <strong>세부 기능 2:</strong> 신규 회원 10% 추가 할인 쿠폰 제공
+                    </div>
+                    <div class="detail-item">
+                        <strong>세부 기능 3:</strong> 전국 200여 개 매장에서 AS 가능
+                    </div>
+                    <div class="detail-item">
+                        <strong>세부 기능 4:</strong> 친환경 패키징 및 빠른 CS 응대 시스템
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- 4. 사용 예시 또는 후기 (Reviews Section) -->
+        <section id="reviews">
+            <div class="container">
+                <h2>실제 고객 후기</h2>
+                <div class="review-cards">
+                    <article class="review-card">
+                        <blockquote>"1+1 행사가 너무 좋아서 친구랑 하나씩 나눠 가졌어요! 품질도 기대 이상이고 색깔이 정말 예쁩니다."</blockquote>
+                        <cite>— 김*현 고객님</cite>
+                    </article>
+                    <article class="review-card">
+                        <blockquote>"배송이 정말 빨랐고, 문의드렸을 때 답변도 친절했어요. 다음번에도 여기서 구매할 예정입니다. 대만족!"</blockquote>
+                        <cite>— 박*영 고객님</cite>
+                    </article>
+                    <article class="review-card">
+                        <blockquote>"이 가격에 이 구성이라니 믿을 수 없네요. 주변에 강력 추천하고 있습니다. 고민할 필요 없이 구매하세요."</blockquote>
+                        <cite>— 이*수 고객님</cite>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. CTA 버튼이 포함된 마무리 섹션 (Final CTA) -->
+        <section id="cta-final">
+            <div class="container">
+                <h2>더 궁금한 점이 있으신가요?</h2>
+                <p style="margin-bottom: 2rem;">전문 상담원에게 1:1로 직접 문의하고 상세한 답변을 받아보세요.</p>
+                <a href="https://example.com/qna" target="_blank" class="cta-button">
+                    지금 바로 문의하기 &rarr;
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <!-- 6. 푸터 (Footer) -->
+    <footer>
+        <div class="container footer-content">
+            <div class="company-info">
+                <p>&copy; 2025 ABC마트. All Rights Reserved.</p>
+                <p>사은품 증정 행사는 조기 마감될 수 있습니다.</p>
+            </div>
+            <div class="contact-info">
+                <p>E-mail: support@abcmart.com</p>
+                <p>대표번호: 02-1234-5678</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript for Toggle Feature -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const toggleButton = document.getElementById('toggleDetails');
+            const content = document.getElementById('feature-details-content');
+
+            /**
+             * 기능 상세 내용을 접거나 펼치는 토글 함수
+             */
+            function toggleFeatureDetails() {
+                const isExpanded = content.classList.contains('expanded');
+
+                if (isExpanded) {
+                    // 내용을 접을 때
+                    content.classList.remove('expanded');
+                    // max-height를 0으로 설정하여 transition 효과 적용
+                    content.style.maxHeight = '0'; 
+                    toggleButton.textContent = '기능 상세 내용 더보기 (클릭)';
+                    toggleButton.setAttribute('aria-expanded', 'false');
+                } else {
+                    // 내용을 펼칠 때
+                    content.classList.add('expanded');
+                    // 컨텐츠의 실제 높이를 계산하여 max-height 설정
+                    // 이를 통해 transition 효과가 부드럽게 적용됨
+                    const scrollHeight = content.scrollHeight; 
+                    content.style.maxHeight = scrollHeight + 'px';
+                    toggleButton.textContent = '기능 상세 내용 숨기기 (클릭)';
+                    toggleButton.setAttribute('aria-expanded', 'true');
+                }
+            }
+
+            // 버튼 클릭 이벤트 리스너 추가
+            toggleButton.addEventListener('click', toggleFeatureDetails);
+        });
+    </script>
+
+</body>
+</html>
